@@ -1,3 +1,5 @@
+--2.What author should we discontinue stocking?
+
 SELECT a.author_id ,a.author_name, oh.status_date AS order_received_on 
 FROM author a
 JOIN book_author ba ON a.author_id = ba.author_id
@@ -10,3 +12,4 @@ GROUP BY a.author_name
 HAVING COUNT(ol.book_id) = 1
 ORDER BY MIN(oh.status_date)
 LIMIT 1;
+

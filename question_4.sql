@@ -1,3 +1,5 @@
+--4. Gravity Books is looking to add a warehouse to help optimize shipping. Where should they locate that warehouse?
+
 SELECT c.country_name, COUNT(co.order_id) AS count_of_orders
 FROM cust_order co
 JOIN customer_address ca ON co.customer_id = ca.customer_id

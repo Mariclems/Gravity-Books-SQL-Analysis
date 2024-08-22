@@ -1,3 +1,5 @@
+--3. Who are the 10 best customers? 
+
 SELECT c.customer_id, c.first_name, c.last_name, SUM(ol.price) AS total_spent
 FROM customer c
 JOIN cust_order o ON c.customer_id = o.customer_id

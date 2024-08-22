@@ -1,6 +1,9 @@
 # Gravity-Books-SQL-Analysis
 SQL analysis for optimizing book stock and customer insights at Gravity Books
 
+**Objective:**
+Gravity Books aimed to leverage their extensive database to gain insights into inventory optimization, customer engagement, and logistical enhancements to improve overall efficiency and customer satisfaction.
+
 
 ## 1.Which language should we stock more books in?
 
@@ -16,19 +19,19 @@ We decided to investigate which book language sells the most to identify custome
 
 **Conclusion:** The goal is to optimize sales while providing satisfaction to our customers. Since they all have different tastes, selling more books in either American or British English will fulfill both conditions.
 
-##2.What author should we discontinue stocking?
+## 2.What author should we discontinue stocking?
 
 To find out what author we should discontinue we identified the author that has the most obsolete sale:  
 
 [Question 2 SQL](queries/question_2.sql)
 
-**Query explained:**This query retrieves information about authors who have sold exactly one book with `status_id` of 1 (which represents a status value of "order received") and sorts them in ascending order based on the date when the order with the `status_id` of 1 was completed. The query utilizes JOIN to link tables that share common key columns such as `order_id` and `book_id`. The WHERE clause specifies that only the orders with `status_id` of 1 should be considered. The GROUP BY clause groups the results by author name, and the HAVING clause ensures that only authors who sold one book are selected. The ORDER BY clause sorts the authors in ascending order based on the oldest date when the order was received. We limited the results to 1.
+**Query explained:** This query retrieves information about authors who have sold exactly one book with `status_id` of 1 (which represents a status value of "order received") and sorts them in ascending order based on the date when the order with the `status_id` of 1 was completed. The query utilizes JOIN to link tables that share common key columns such as `order_id` and `book_id`. The WHERE clause specifies that only the orders with `status_id` of 1 should be considered. The GROUP BY clause groups the results by author name, and the HAVING clause ensures that only authors who sold one book are selected. The ORDER BY clause sorts the authors in ascending order based on the oldest date when the order was received. We limited the results to 1.
 
 ![Output](Images/Q2.png)
 
-**Results explained:**The output above shows the `author_id` column, the `author_name`, and the `Status Status id` column from the order_line table, described as `order_received_on`. It returned the exact date and time when author Ingrid Christopherson had their last book sale.
+**Results explained:** The output above shows the `author_id` column, the `author_name`, and the `Status Status id` column from the order_line table, described as `order_received_on`. It returned the exact date and time when author Ingrid Christopherson had their last book sale.
 
-**Insight:**In our analysis, we explored different variables to ensure that we get the most accurate results. One of them was to find the author that sells the least. It was found that "no author made 0 sale" and "all authors made at least one sale", which complicates proceeding with the least sale theory. We then determined that since there are so many authors who sold only once, we could consider eliminating the author with the oldest sale, datetime-wise. Coincidentally, the output of the "oldest sale of authors that sold the least" also corresponds to the oldest status date.
+**Insight:** In our analysis, we explored different variables to ensure that we get the most accurate results. One of them was to find the author that sells the least. It was found that "no author made 0 sale" and "all authors made at least one sale", which complicates proceeding with the least sale theory. We then determined that since there are so many authors who sold only once, we could consider eliminating the author with the oldest sale, datetime-wise. Coincidentally, the output of the "oldest sale of authors that sold the least" also corresponds to the oldest status date.
 
 **Conclusion:** Even though author Ingrid Christopherson has been identified as the author with the oldest book sale, the database has multiple authors that are not selling very well and need further investigation.
 
@@ -37,7 +40,7 @@ To find out what author we should discontinue we identified the author that has 
 
 We have thought about the many definitions we could attribute to “best customers” and came up with two possible options: 
 
-### Option 1:  The best customers are the customers that spent the most money:
+#### Option 1:  The best customers are the customers that spent the most money:
 
 [ First SQL](queries/question_3a.sql)
 
@@ -45,11 +48,11 @@ We have thought about the many definitions we could attribute to “best custome
 
 ![Output](Images/Q3_option1.png)
 
-### Option 2: The best customers are the most frequent buyers. 
+#### Option 2: The best customers are the most frequent buyers. 
 
 [ Second SQL](queries/question_3b.sql)
 
-**Query explained:**This query uses the COUNT (*) function to count “the number of orders” for each customer. Then we joined the cust_order table with the customer table on the customer_id (foreign key) column and grouped the results by the customer_id, first_name, and last_name to identify the frequent buyers by their full name and ids. The results are ordered in descending order by the “number of orders”. Again, we limited the results to the top 10 customers
+**Query explained:** This query uses the COUNT (*) function to count “the number of orders” for each customer. Then we joined the cust_order table with the customer table on the customer_id (foreign key) column and grouped the results by the customer_id, first_name, and last_name to identify the frequent buyers by their full name and ids. The results are ordered in descending order by the “number of orders”. Again, we limited the results to the top 10 customers
 
 ![Output](Images/Q3_option2.png)
 
@@ -58,11 +61,19 @@ We have thought about the many definitions we could attribute to “best custome
 ## 4. Gravity Books is looking to add a warehouse to help optimize shipping. Where should they locate that warehouse?
 
 
-**Query explained:**to determine the country with the most orders, we selected the country_name column and used the count function to count the number of orders per country. We later joined the cust_order table with the customer address table, which connects customers to their addresses. Then we joined the address table with the country table to get the country associated with each address. The results were grouped by country, and finally the results were sorted in descending order and select the top country.
+**Query explained:** to determine the country with the most orders, we selected the country_name column and used the count function to count the number of orders per country. We later joined the cust_order table with the customer address table, which connects customers to their addresses. Then we joined the address table with the country table to get the country associated with each address. The results were grouped by country, and finally the results were sorted in descending order and select the top country.
 
-**Results explained:**The output shows the country_name column from the country table and the total count of order_id defined as count_of _orders. The variables characters and intergers inside the table shows that China is the country that has the largest size of orders. 
+**Results explained:** The output shows the country_name column from the country table and the total count of order_id defined as count_of _orders. The variables characters and intergers inside the table shows that China is the country that has the largest size of orders. 
 
-**Conclusion:**China being the country that has the most orders they would benefit from a warehouse at proximity to reduce their shipping cost and time.
+**Conclusion:** China being the country that has the most orders they would benefit from a warehouse at proximity to reduce their shipping cost and time.
+
+
+
+## Conclusion 
+
+The analysis provided Gravity Books with critical insights into customer preferences, sales performance, and logistical optimization. These insights are intended to inform strategic decisions in inventory management, marketing, customer relationship management, and logistical operations to enhance both customer satisfaction and operational efficiency.
+
+
 
 
 ## Tables Description
